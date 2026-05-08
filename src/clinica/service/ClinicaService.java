@@ -1,6 +1,7 @@
 package clinica.service;
 
 import clinica.interfaces.Consultable;
+import clinica.model.EstadoTurno;
 import clinica.model.Medico;
 import clinica.model.Paciente;
 import clinica.model.Turno;
@@ -10,19 +11,19 @@ import java.util.*;
 
 public class ClinicaService implements Consultable {
 
-    private Set<Medico> medicos = new HashSet<>();
-    private Set<Paciente> pacientes = new HashSet<>();
-    private Set<Turno> turnos = new HashSet<>();
+    private List<Medico> medicos = new ArrayList<>();
+    private List<Paciente> pacientes = new ArrayList<>();
+    private List<Turno> turnos = new ArrayList<>();
 
-    public Set getMedicos() {
+    public List<Medico> getMedicos() {
         return medicos;
     }
 
-    public Set getPacientes() {
+    public List<Paciente> getPacientes() {
         return pacientes;
     }
 
-    public Set getTurnos() {
+    public List<Turno> getTurnos() {
         return turnos;
     }
 
@@ -45,7 +46,7 @@ public class ClinicaService implements Consultable {
         System.out.println("Paciente registrado correctamente.");
     }
 
-    public Paciente buscarPacientePorCedula(String cedula) {
+    public Paciente buscarPorCedula(String cedula) {
         for (Paciente paciente : pacientes) {
             if (Objects.equals(paciente.getCedula(), cedula)) {
                 return paciente;
@@ -122,15 +123,39 @@ public class ClinicaService implements Consultable {
 
     // Métodos de Turno
     public void asignarTurno(Turno turno) {
+        Paciente paciente = buscarPorCedula(turno.getPaciente().getCedula());
         Medico medico = buscarPorNombreApellido(turno.getMedico().getNombre(), turno.getMedico().getApellido());
-        Paciente paciente = buscarPacientePorCedula(turno.getPaciente().getCedula());
-        if (medico == null || paciente == null) {
-            System.out.println("No se pudo asignar el turno.");
-            return;
-        } else {
 
+        if (medico == null || paciente == null) {
+            System.out.println("No se pudo asignar el turno: Médico o Paciente no encontrados.");
+            return;
         }
 
+        for (Turno t : turnos) {
+            if (t.getMedico().equals(medico) && t.getFechaHora().equals(turno.getFechaHora())){
+                System.out.println("El turno ya existe.");
+                return;
+            }
+        }
+
+        turno.setId(turnos.size() + 1);
+        turnos.add(turno);
+        System.out.println("Turno asignado correctamente");
+    }
+
+    public void cancelarTurno(int turnoId) {
+        for (Turno turno : turnos) {
+            if (turno.getId() == turnoId) {
+                if (turno.getEstado() != EstadoTurno.CANCELADO || turno.getEstado() != EstadoTurno.ATENDIDO) {
+                    System.out.println("No se puede cancelar el turno. Estado actual de torno: " + turno.getEstado());
+                    return;
+                }
+                turno.setEstado(EstadoTurno.CANCELADO);
+                System.out.println("Turno cancelado correctamente.");
+                return;
+            }
+        }
+        System.out.println("Turno no encontrado.");
     }
 
 

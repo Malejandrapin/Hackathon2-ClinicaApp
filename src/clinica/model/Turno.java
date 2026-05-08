@@ -80,6 +80,10 @@ public class Turno {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Turno)) return false;
