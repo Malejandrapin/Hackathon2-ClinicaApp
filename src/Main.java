@@ -270,7 +270,7 @@ public class Main {
                             servicio.buscarPorPaciente(pacienteBuscado);
 
                     for (Turno t : turnosPaciente) {
-                        System.out.println(t);
+                        System.out.println(t.toString());
                     }
 
                     break;

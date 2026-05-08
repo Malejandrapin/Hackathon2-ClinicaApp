@@ -158,10 +158,10 @@ public class ClinicaService implements Consultable {
         System.out.println("Turno no encontrado.");
     }
 
-    public void cambiarEstadoTurno(int turnoId, EstadoTurno estado) {
+    public void cambiarEstadoTurno(int turnoId, EstadoTurno nuevoEstadoTurno) {
         for (Turno turno : turnos) {
             if (turno.getId() == turnoId) {
-                turno.setEstado(estado);
+                turno.setEstado(nuevoEstadoTurno);
                 System.out.println("Estado del turno cambiado correctamente.");
                 return;
             }

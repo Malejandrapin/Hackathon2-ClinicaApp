@@ -91,7 +91,7 @@ public class Turno {
     }
 
     public String toString(){
-        return estado.toString() +
+        return estado.toString() + " " +
                 paciente.getNombre() + " " +
                 paciente.getApellido() +
                 " — Dr. " + medico.getNombre() +
