@@ -12,7 +12,7 @@ public class ClinicaService implements Consultable {
 
     private Set<Medico> medicos = new HashSet<>();
     private Set<Paciente> pacientes = new HashSet<>();
-    private List<Turno> turnos = new ArrayList<>();
+    private Set<Turno> turnos = new HashSet<>();
 
     public Set getMedicos() {
         return medicos;
@@ -22,7 +22,7 @@ public class ClinicaService implements Consultable {
         return pacientes;
     }
 
-    public List getTurnos() {
+    public Set getTurnos() {
         return turnos;
     }
 
@@ -33,9 +33,11 @@ public class ClinicaService implements Consultable {
             return;
         }
 
-        if (pacientes.contains(paciente)) {
-            System.out.println("El paciente ya existe.");
-            return;
+        for (Paciente p : pacientes) {
+            if (p.getCedula().equals(paciente.getCedula())){
+                System.out.println("El paciente ya existe.");
+                return;
+            }
         }
 
         paciente.setId(pacientes.size() + 1);
@@ -73,18 +75,61 @@ public class ClinicaService implements Consultable {
 
     public void registrarMedico(Medico medico) {
         if (!medico.esValido()) {
-            System.out.println("No se pudo registrar, paciente no es válido.");
+            System.out.println("No se pudo registrar, medico no es válido.");
             return;
         }
 
-        if (pacientes.contains(medico)) {
-            System.out.println("El paciente ya existe.");
-            return;
+        for (Medico m : medicos) {
+            if (m.getEspecialidad().equals(medico.getEspecialidad()) &&
+                    m.getApellido().equals(medico.getApellido()) &&
+                    m.getNombre().equals(medico.getNombre())
+            ){
+                System.out.println("El medico ya existe.");
+                return;
+            }
         }
 
-        medico.setId(pacientes.size() + 1);
-        pacientes.add(medico);
-        System.out.println("Paciente registrado correctamente.");
+        medico.setId(medicos.size() + 1);
+        medicos.add(medico);
+        System.out.println("Medico registrado correctamente.");
+    }
+
+    public Medico buscarPorNombreApellido(String nombre, String apellido) {
+        for (Medico medico : medicos) {
+            if (medico.getNombre().equalsIgnoreCase(nombre) && medico.getApellido().equalsIgnoreCase(apellido)) {
+                return medico;
+            }
+        }
+        return null;
+    }
+
+    public void listarMedicos(){
+        System.out.println("Lista de médicos:");
+        if (medicos.isEmpty()) {
+            System.out.println("No hay médicos registrados.");
+        } else {
+            List<Medico> medicosCopia = new ArrayList<>(medicos);
+            medicosCopia.sort(
+                    Comparator
+                            .comparing(Medico::getEspecialidad)
+                            .thenComparing(Medico::getApellido)
+            );
+            for (Medico medico : medicosCopia) {
+                System.out.println(medico.toString());
+            }
+        }
+    }
+
+    // Métodos de Turno
+    public void asignarTurno(Turno turno) {
+        Medico medico = buscarPorNombreApellido(turno.getMedico().getNombre(), turno.getMedico().getApellido());
+        Paciente paciente = buscarPacientePorCedula(turno.getPaciente().getCedula());
+        if (medico == null || paciente == null) {
+            System.out.println("No se pudo asignar el turno.");
+            return;
+        } else {
+
+        }
 
     }
 
