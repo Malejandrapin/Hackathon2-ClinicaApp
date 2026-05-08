@@ -1,3 +1,7 @@
 package clinica.model;
 
-public enum EstadoTurno {}
+public enum EstadoTurno {
+    PENDIENTE,
+    ATENDIDO,
+    CANCELADO,
+}
