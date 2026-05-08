@@ -15,7 +15,7 @@ public class Main {
         DatosCSV.cargar(servicio);
 
         Scanner sc = new Scanner(System.in);
-        int opcion = sc.nextInt();
+        int opcion;
         do {
             System.out.println("****************************************");
             System.out.println(" CLINICAAPP - MENU");
@@ -33,6 +33,8 @@ public class Main {
             System.out.println(" 0. Salir");
             System.out.printf("========================================\n\n");
 
+            opcion = sc.nextInt();
+            sc.nextLine();
 
             switch (opcion) {
                 // REGISTRAR PACIENTE
@@ -154,13 +156,13 @@ public class Main {
                                         minuto
                                 );
 
-                        Turno turno = new Turno(
-                                paciente,
-                                medico,
-                                fechaHora
-                        );
+//                        Turno turno = new Turno(
+//                                paciente,
+//                                medico,
+//                                fechaHora
+//                        );
 
-                        servicio.asignarTurno(turno);
+//                        servicio.asignarTurno(turno);
 
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
@@ -303,10 +305,10 @@ public class Main {
                                         sc.nextLine().toUpperCase()
                                 );
 
-                        servicio.cambiarEstadoTurno(
-                                idTurno,
-                                nuevo
-                        );
+//                        servicio.cambiarEstadoTurno(
+//                                idTurno,
+//                                nuevo
+//                        );
 
                     } catch (Exception e) {
 
@@ -339,6 +341,7 @@ public class Main {
                 default:
                     System.out.println("Opción inválida.");
             }
+
         } while (opcion != 0);
         sc.close();
     }
