@@ -6,20 +6,19 @@ import clinica.model.Paciente;
 import clinica.model.Turno;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ClinicaService implements Consultable {
 
-    private List medicos = new ArrayList<Medico>();
-    private List pacientes = new ArrayList<Paciente>();
-    private List turnos = new ArrayList<Turno>();
+    private Set<Medico> medicos = new HashSet<>();
+    private Set<Paciente> pacientes = new HashSet<>();
+    private List<Turno> turnos = new ArrayList<>();
 
-    public List getMedicos() {
+    public Set getMedicos() {
         return medicos;
     }
 
-    public List getPacientes() {
+    public Set getPacientes() {
         return pacientes;
     }
 
@@ -31,14 +30,64 @@ public class ClinicaService implements Consultable {
     public void registrarPaciente(Paciente paciente) {
         if (!paciente.esValido()) {
             System.out.println("No se pudo registrar, paciente no es válido.");
+            return;
+        }
+
+        if (pacientes.contains(paciente)) {
+            System.out.println("El paciente ya existe.");
+            return;
+        }
+
+        paciente.setId(pacientes.size() + 1);
+        pacientes.add(paciente);
+        System.out.println("Paciente registrado correctamente.");
+    }
+
+    public Paciente buscarPacientePorCedula(String cedula) {
+        for (Paciente paciente : pacientes) {
+            if (Objects.equals(paciente.getCedula(), cedula)) {
+                return paciente;
+            }
+        }
+        return null;
+    }
+
+    public void listarPacientes() {
+        System.out.println("Lista de pacientes:");
+        if (pacientes.isEmpty()) {
+            System.out.println("No hay pacientes registrados.");
         } else {
-            if (pacientes.contains(paciente)) {
-                System.out.println("No se pudo registrar, paciente ya existe.");
+            List<Paciente> pacientesCopia = new ArrayList<>(pacientes);
+            pacientesCopia.sort(
+                    Comparator
+                            .comparing(Paciente::getApellido)
+                            .thenComparing(Paciente::getNombre)
+            );
+            for (Paciente paciente : pacientesCopia) {
+                System.out.println(paciente.toString());
             }
         }
     }
 
-    //
+    // Métodos de Médico
+
+    public void registrarMedico(Medico medico) {
+        if (!medico.esValido()) {
+            System.out.println("No se pudo registrar, paciente no es válido.");
+            return;
+        }
+
+        if (pacientes.contains(medico)) {
+            System.out.println("El paciente ya existe.");
+            return;
+        }
+
+        medico.setId(pacientes.size() + 1);
+        pacientes.add(medico);
+        System.out.println("Paciente registrado correctamente.");
+
+    }
+
 
     @Override
     public List listarTurnosDelDia(LocalDate fecha) {

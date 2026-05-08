@@ -87,6 +87,7 @@ public class Paciente implements Registrable {
                 telefono != null && !telefono.isEmpty();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -94,6 +95,12 @@ public class Paciente implements Registrable {
         return cedula.equals(paciente.cedula);
     }
 
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(cedula);
+    }
+
+    @Override
     public String toString() {
         return nombre + " " + apellido + " - " + cedula + " - " + telefono;
     }
