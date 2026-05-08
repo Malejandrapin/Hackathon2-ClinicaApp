@@ -1,3 +1,4 @@
+/*
 package clinica.datos;
 
 import clinica.model.Paciente;
@@ -41,4 +42,4 @@ public class DatosCSV {
             System.out.println("Error: " + e.getMessage());
         }
     }
-}
+}*/

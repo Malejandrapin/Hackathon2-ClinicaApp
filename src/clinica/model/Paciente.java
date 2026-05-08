@@ -77,11 +77,24 @@ public class Paciente implements Registrable {
 
     @Override
     public String getDatosRegistro() {
-        return "";
+        return toString();
     }
 
     @Override
     public boolean esValido() {
-        return false;
+        return nombre != null && !nombre.isEmpty() &&
+                apellido != null && !apellido.isEmpty() &&
+                telefono != null && !telefono.isEmpty();
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Paciente paciente = (Paciente) o;
+        return cedula.equals(paciente.cedula);
+    }
+
+    public String toString() {
+        return nombre + " " + apellido + " - " + cedula + " - " + telefono;
     }
 }

@@ -3,7 +3,7 @@ package clinica.model;
 import clinica.interfaces.Registrable;
 
 public class Medico implements Registrable {
-    private final int id;
+    private int id;
     private String nombre;
     private String apellido;
     private Especialidad especialidad;
@@ -21,4 +21,81 @@ public class Medico implements Registrable {
         setEspecialidad(especialidad);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del médico no puede ser nulo ni vacío.");
+        }
+        this.nombre = nombre.trim();
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        if (apellido == null || apellido.trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido del médico no puede ser nulo ni vacío.");
+        }
+        this.apellido = apellido.trim();
+    }
+
+    public Especialidad getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(Especialidad especialidad) {
+        if (especialidad == null) {
+            throw new IllegalArgumentException("La especialidad no puede ser nula.");
+        }
+        this.especialidad = especialidad;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || !(o instanceof Medico)) {
+            return false;
+        }
+
+        Medico medico = (Medico) o;
+
+        boolean nombreIgual = this.nombre.equalsIgnoreCase(medico.nombre);
+        boolean apellidoIgual = this.apellido.equalsIgnoreCase(medico.apellido);
+
+        return nombreIgual && apellidoIgual;
+    }
+
+    @Override
+    public String toString() {
+        return "Dr. " + nombre + " " + apellido + " - " + especialidad;
+    }
+
+    @Override
+    public String getDatosRegistro() {
+        return toString();
+    }
+
+    @Override
+    public boolean esValido() {
+        return nombre != null && !nombre.isEmpty() && apellido != null && !apellido.isEmpty();
+    }
 }
+
+
+
