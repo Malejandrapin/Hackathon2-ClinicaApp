@@ -146,7 +146,7 @@ public class ClinicaService implements Consultable {
     public void cancelarTurno(int turnoId) {
         for (Turno turno : turnos) {
             if (turno.getId() == turnoId) {
-                if (turno.getEstado() != EstadoTurno.CANCELADO || turno.getEstado() != EstadoTurno.ATENDIDO) {
+                if (turno.getEstado() != EstadoTurno.PENDIENTE) {
                     System.out.println("No se puede cancelar el turno. Estado actual de torno: " + turno.getEstado());
                     return;
                 }
@@ -158,25 +158,62 @@ public class ClinicaService implements Consultable {
         System.out.println("Turno no encontrado.");
     }
 
+    public void cambiarEstadoTurno(int turnoId, EstadoTurno estado) {
+        for (Turno turno : turnos) {
+            if (turno.getId() == turnoId) {
+                turno.setEstado(estado);
+                System.out.println("Estado del turno cambiado correctamente.");
+                return;
+            }
+        }
+        System.out.println("Turno no encontrado.");
+    }
+
 
     @Override
-    public List listarTurnosDelDia(LocalDate fecha) {
-        // Todos los turnos cuya fechaHora corresponda a ese día, ordenados de
-        //menor a mayor por hora. Lista vacía si no hay ninguno.
-        return List.of();
+    public List<Turno> listarTurnosDelDia(LocalDate fecha) {
+        List<Turno> turnosDia = new ArrayList<>();
+
+        for (Turno turno : turnos) {
+
+            if (turno.getFechaHora().toLocalDate().equals(fecha)) {
+                turnosDia.add(turno);
+            }
+        }
+
+        turnosDia.sort(
+                Comparator.comparing(Turno::getFechaHora)
+        );
+
+        return turnosDia;
     }
 
     @Override
-    public List buscarPorMedico(Medico medico) {
-        // Todos los turnos asignados al médico indicado. Usa el equals() de Medico.
-        //Lista vacía si no hay ninguno
-        return List.of();
+    public List<Turno> buscarPorMedico(Medico medico) {
+        List<Turno> turnosMedico = new ArrayList<>();
+
+        for (Turno turno : turnos) {
+
+            if (turno.getMedico().equals(medico)) {
+                turnosMedico.add(turno);
+            }
+        }
+
+        return turnosMedico;
     }
 
     @Override
-    public List buscarPorPaciente(Paciente paciente) {
-        // Todos los turnos del paciente indicado. Usa el equals() de Paciente. Lista
-        //vacía si no hay ninguno
-        return List.of();
+    public List<Turno> buscarPorPaciente(Paciente paciente) {
+
+        List<Turno> turnosPaciente = new ArrayList<>();
+
+        for (Turno turno : turnos) {
+
+            if (turno.getPaciente().equals(paciente)) {
+                turnosPaciente.add(turno);
+            }
+        }
+
+        return turnosPaciente;
     }
 }

@@ -26,8 +26,7 @@ public class Turno {
     public Turno(
             Paciente paciente,
             Medico medico,
-            LocalDateTime fechaHora,
-            EstadoTurno estado
+            LocalDateTime fechaHora
     ) {
         setPaciente(paciente);
         setMedico(medico);

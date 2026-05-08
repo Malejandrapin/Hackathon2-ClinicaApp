@@ -156,19 +156,20 @@ public class Main {
                                         minuto
                                 );
 
-//                        Turno turno = new Turno(
-//                                paciente,
-//                                medico,
-//                                fechaHora
-//                        );
+                        Turno turno = new Turno(
+                                paciente,
+                                medico,
+                                fechaHora
+                        );
 
-//                        servicio.asignarTurno(turno);
+                        servicio.asignarTurno(turno);
 
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
                     }
 
                     break;
+
                 // LISTAR TURNOS DEL DIA
 
                 case 4:
@@ -229,20 +230,20 @@ public class Main {
                     System.out.print("Apellido médico: ");
                     String apeMed = sc.nextLine();
 
-                    Medico medBuscado =
+                    Medico medicoBuscado =
                             servicio.buscarPorNombreApellido(
                                     nomMed,
                                     apeMed
                             );
 
-                    if (medBuscado == null) {
+                    if (medicoBuscado == null) {
 
                         System.out.println("Médico no encontrado.");
                         break;
                     }
 
                     List<Turno> turnosMedico =
-                            servicio.buscarPorMedico(medBuscado);
+                            servicio.buscarPorMedico(medicoBuscado);
 
                     for (Turno t : turnosMedico) {
 
@@ -251,42 +252,34 @@ public class Main {
 
                     break;
 
-                // =====================================
                 // TURNOS POR PACIENTE
-                // =====================================
 
                 case 7:
-
                     System.out.print("Cédula paciente: ");
                     String ced = sc.nextLine();
 
-                    Paciente pacBuscado =
+                    Paciente pacienteBuscado =
                             servicio.buscarPorCedula(ced);
 
-                    if (pacBuscado == null) {
-
+                    if (pacienteBuscado == null) {
                         System.out.println("Paciente no encontrado.");
                         break;
                     }
 
                     List<Turno> turnosPaciente =
-                            servicio.buscarPorPaciente(pacBuscado);
+                            servicio.buscarPorPaciente(pacienteBuscado);
 
                     for (Turno t : turnosPaciente) {
-
                         System.out.println(t);
                     }
 
                     break;
 
                 // CAMBIAR ESTADO
-
                 case 8:
 
                     try {
-
                         System.out.print("ID turno: ");
-
                         int idTurno =
                                 Integer.parseInt(sc.nextLine());
 
@@ -305,10 +298,10 @@ public class Main {
                                         sc.nextLine().toUpperCase()
                                 );
 
-//                        servicio.cambiarEstadoTurno(
-//                                idTurno,
-//                                nuevo
-//                        );
+                        servicio.cambiarEstadoTurno(
+                                idTurno,
+                                nuevo
+                        );
 
                     } catch (Exception e) {
 
